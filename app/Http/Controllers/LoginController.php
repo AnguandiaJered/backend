@@ -48,4 +48,20 @@ class LoginController extends Controller
             return $this->sendErrorResponse('Votre compte est désativer');
         }
     }
+
+    public function logout(Request $request)
+    {
+        try {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Vous etes déconnecté'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'false',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

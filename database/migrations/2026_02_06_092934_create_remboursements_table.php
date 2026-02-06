@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('remboursements', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('dette_id');
+            $table->integer('montant');
+            $table->enum('status', ['TERMINER', 'ENCOURS'])->default('ENCOURS');
+            $table->integer('author_id');
             $table->timestamps();
+            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('dette_id')->references('id')->on('dettes');
+            $table->softDeletes();
         });
     }
 
